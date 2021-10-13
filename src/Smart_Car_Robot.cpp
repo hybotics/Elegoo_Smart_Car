@@ -4,9 +4,9 @@
 #include "Smart_Car_Robot.h"
 
 //  Trackers for the current speed of each side
-unsigned int left_speed_current = 110;
-unsigned int right_speed_current = 110;
-unsigned int current_speed = 110;
+uint8_t left_speed_current = 110;
+uint8_t right_speed_current = 110;
+uint8_t current_speed = 110;
 int speed_increment_ms = 30;
 
 struct movement {
@@ -50,16 +50,15 @@ void enable_motors(void) {
 }
 
 void all_stop(void) {
-  disable_motors();
+  disable_motors(void);
 
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
-}
 
-unsigned int pingTime() {
-  unsigned int pingTravelTime;
+uint16_t pingTime(void) {
+  uint16_t pingTravelTime;
 
   digitalWrite(SONAR_TRIGGER_PIN, LOW);   
   delayMicroseconds(2);
@@ -72,23 +71,23 @@ unsigned int pingTime() {
   return pingTravelTime; 
 }
 
-float measure_distance_in() {
-  unsigned int pingTravelTime;
+float measure_distance_in(void) {
+  uint16_t pingTravelTime;
   float distance_in;
 
-  pingTravelTime = pingTime();
+  pingTravelTime = pingTime(void);
   distance_in = ((pingTravelTime * 761.0 * 5280.0 * 12.0) / (1000000.0 * 3600.0)) / 2;
 
   return distance_in;
 } 
 
-float measure_distance_cm() {
+float measure_distance_cm(void) {
   float distance_cm = measure_distance_in() * 2.54;
 
   return distance_cm;
 }
 
-void set_speed(unsigned int left_speed, unsigned int right_speed) {
+void set_speed(uint8_t left_speed, uint8_t right_speed) {
   enable_motors();
 
   if (left_speed < MINIMUM_SPEED or left_speed + LEFT_SPEED_ADJUST > MAXIMUM_SPEED or
@@ -200,8 +199,8 @@ Movement forward(float distance_ft) {
   digitalWrite(IN4, HIGH);
 
   run_time_ms = distance_ft / SPEED_RATE * 1000;
-  increment_ms = int(run_time_ms / RUN_TIME_DIV_MS);
-  num_increments = int(run_time_ms / increment_ms);
+  increment_ms = int8_t(run_time_ms / RUN_TIME_DIV_MS);
+  num_increments = int8_t(run_time_ms / increment_ms);
 
   Serial.print("Distance calculations:\nrun_time_ms ");
   Serial.print(run_time_ms);
@@ -289,7 +288,12 @@ void turn_right(uint16_t turn_degrees) {
   all_stop();
 }
 
-void calibrate_forward() {
+/*
+  These functions MAY be removed for release
+
+
+*/
+void calibrate_forward(void) {
   digitalWrite(IN1,HIGH);
   digitalWrite(IN2,LOW);
   digitalWrite(IN3,LOW);
@@ -298,7 +302,7 @@ void calibrate_forward() {
   all_stop();
 }
 
-void calibrate_reverse() {
+void calibrate_reverse(void) {
   digitalWrite(IN1,LOW);
   digitalWrite(IN2,HIGH);
   digitalWrite(IN3,HIGH);
@@ -306,7 +310,8 @@ void calibrate_reverse() {
   delay(5000);
   all_stop();
 }
-void calibrate_right() {
+
+void calibrate_right(void) {
   digitalWrite(IN1,HIGH);
   digitalWrite(IN2,LOW);
   digitalWrite(IN3,HIGH);
@@ -315,7 +320,7 @@ void calibrate_right() {
   all_stop();
 }
 
-void calibrate_left() {
+void calibrate_left(void) {
   digitalWrite(IN1,LOW);
   digitalWrite(IN2,HIGH);
   digitalWrite(IN3,LOW);

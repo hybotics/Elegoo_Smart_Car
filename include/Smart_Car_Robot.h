@@ -51,6 +51,34 @@
 
 #define MAX_NUM_MEASUREMENTS      20
 
+/*
+  Function prototypes
+*/
+void blink_led(uint8_t , uint16_t);
+void disable_motors(void);
+void enable_motors(void);
+void all_stop(void);
+uint16_t pingTime(void);
+float measure_distance_in(void);
+float measure_distance_cm(void);
+void set_speed(unsigned int, unsigned int);
+bool scan_area(DistanceUnits, uint8_t , uint8_t, uint8_t);
+Movement forward(float);
+void reverse(float);
+void turn_left(uint16_t);
+void turn_right(uint16_t);
+
+void calibrate_forward(void);
+void calibrate_reverse(void);
+void calibrate_right(void);
+void calibrate_left(void);
+
+void setup(void);
+void loop(void);  
+/*
+  End of prototypes
+*/
+
 enum DistanceUnits {
   mm = 10,
   cm = 20,
