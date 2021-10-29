@@ -50,6 +50,34 @@
 #define OBJECT_MIN_DIST_IN        3
 
 #define MAX_NUM_MEASUREMENTS      20
+#define MAX_ERROR_LOOPS           5
+
+enum DistanceUnits {
+  mm = 10,
+  cm = 20,
+  meters = 30,
+  kilometers = 40,
+
+  inches = 50,
+  feet = 60,
+  miles = 70
+};
+
+struct movement {
+  bool status;
+  uint16_t distance;
+};
+
+struct scandata {
+  bool status;
+  float * meas;
+};
+
+//  This is the return value from scan area functions
+typedef struct scandata ScanItAll;
+
+//  This is be the return value from movement functions
+typedef struct movement Movement;
 
 /*
   Function prototypes
@@ -61,8 +89,8 @@ void all_stop(void);
 uint16_t pingTime(void);
 float measure_distance_in(void);
 float measure_distance_cm(void);
-void set_speed(unsigned int, unsigned int);
-bool scan_area(DistanceUnits, uint8_t , uint8_t, uint8_t);
+bool set_speed(uint8_t, uint8_t);
+ScanItAll scan_area(DistanceUnits, uint8_t , uint8_t, uint8_t);
 Movement forward(float);
 void reverse(float);
 void turn_left(uint16_t);
@@ -78,14 +106,3 @@ void loop(void);
 /*
   End of prototypes
 */
-
-enum DistanceUnits {
-  mm = 10,
-  cm = 20,
-  meters = 30,
-  kilometers = 40,
-
-  inches = 50,
-  feet = 60,
-  miles = 70
-};
